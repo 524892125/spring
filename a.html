@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    var ws = new WebSocket("ws://localhost:8080/my-websocket");
+
+    ws.onopen = function() {
+        console.log("Connected to the WebSocket server");
+        // 发送消息到服务器
+        ws.send("ping");
+        // setInterval(function () {
+        //     ws.send('{"fn_index":1165,"session_hash":"nbds66j8ywa"}')
+        // }, 2000)
+    };
+
+    ws.onmessage = function(event) {
+        console.log("Received message: " + event.data);
+        if (event.data.indexOf("send_hash") !== -1) {
+            ws.send('{"fn_index":1165,"session_hash":"nbds66j8ywa"}')
+        }
+        if (event.data.indexOf("send_data") !== -1) {
+            ws.send('{"data":[],"event_data":null,"fn_index":1179,"session_hash":"3suv88sp57d"}')
+        }
+    };
+
+    ws.onclose = function() {
+        console.log("Disconnected from the WebSocket server");
+    };
+
+    ws.onerror = function(error) {
+        console.error("WebSocket error: " + error);
+    };
+
+</script>
+</body>
+</html>
