@@ -15,6 +15,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 自定义WebSocket客户端
+ * WebSocket客户端 核心依赖包-
+ *         <dependency>
+ *             <groupId>org.java-websocket</groupId>
+ *             <artifactId>Java-WebSocket</artifactId>
+ *             <version>1.5.5</version>
+ *         </dependency>
  */
 public class CLientSocketHandler {
 
