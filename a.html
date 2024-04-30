@@ -6,37 +6,94 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+        img {
+            width: 200px;
+            vertical-align: top;
+        }
+        #main {
+            position: relative;
+        }
+        .box {
+            position: absolute;
+            padding: 15px 0 0 15px;
+        }
+        .pic {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+
 </head>
 <body>
+<div id="main">
+    <div class="box">
+        <div class="pic">
+            <img style="height: 300px;" src="../program1/images/1.jpg" alt="">
+        </div>
+    </div>
+    <div class="box"><div class="pic"><img style="height: 300px;" src="../program1/images/2.jpg" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 500px;" src="../program1/images/3.png" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 700px;" src="../program1/images/4.png" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 100px;" src="../program1/images/1.jpg" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 400px;" src="../program1/images/2.jpg" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height:900px;" src="../program1/images/3.png" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 800px;" src="../program1/images/4.png" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 700px;" src="../program1/images/1.jpg" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 300px;" src="../program1/images/2.jpg" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 100px;" src="../program1/images/3.png" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 600px;" src="../program1/images/4.png" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 700px;" src="../program1/images/1.jpg" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 200px;" src="../program1/images/2.jpg" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 400px;" src="../program1/images/3.png" alt=""></div></div>
+    <div class="box"><div class="pic"><img style="height: 200px;" src="../program1/images/4.png" alt=""></div></div>
+</div>
+
+
 <script>
-    var ws = new WebSocket("ws://localhost:8080/my-websocket");
+    window.addEventListener("load",function() {
+        //1、实现瀑布流布局
+        waterFall('main','box');
+    })
 
-    ws.onopen = function() {
-        console.log("Connected to the WebSocket server");
-        // 发送消息到服务器
-        ws.send("ping");
-        // setInterval(function () {
-        //     ws.send('{"fn_index":1165,"session_hash":"nbds66j8ywa"}')
-        // }, 2000)
-    };
 
-    ws.onmessage = function(event) {
-        console.log("Received message: " + event.data);
-        if (event.data.indexOf("send_hash") !== -1) {
-            ws.send('{"fn_index":1165,"session_hash":"nbds66j8ywa"}')
+    /*
+      实现瀑布流布局，传递参数为string类型
+    */
+    function waterFall(parent,child) {
+        //1、根据图片的列数来确定父盒子的宽度，父盒子居中
+        //1.1 获取标签，父盒子和所有子盒子
+        var father= document.getElementById(parent);
+        var allBox = document.getElementsByClassName(child);
+
+        // console.log(father.offsetHeight, father.getBoundingClientRect().height)
+
+        // console.log(allBox, father)
+        var top1 = 0;
+        var top2 = 0;
+        for (var i = 0; i < allBox.length; i++) {
+            var item = allBox[i];
+
+
+            console.log('top1: ' + top1, 'top2: ' + top2)
+            var left = i % 2 === 0 ? 0 : 500;
+            var top = i % 2 === 0 ? top1 : top2;
+            item.style = 'left:' + left + 'px; top: ' + top + 'px;'
+
+            if (i % 2 == 0) {
+                top1 += item.getBoundingClientRect().height;
+            } else {
+                top2 += item.getBoundingClientRect().height;
+            }
         }
-        if (event.data.indexOf("send_data") !== -1) {
-            ws.send('{"data":[],"event_data":null,"fn_index":1179,"session_hash":"3suv88sp57d"}')
-        }
-    };
 
-    ws.onclose = function() {
-        console.log("Disconnected from the WebSocket server");
-    };
+    }
 
-    ws.onerror = function(error) {
-        console.error("WebSocket error: " + error);
-    };
 
 </script>
 </body>

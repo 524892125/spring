@@ -1,6 +1,7 @@
 package org.example.es;
 
 import org.apache.http.HttpHost;
+import org.elasticsearch.action.get.MultiGetRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -8,6 +9,8 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.SearchHit;
@@ -28,17 +31,25 @@ public class ElasticsearchQueryExample {
     public static void main(String[] args) {
         // 创建客户端
         RestClientBuilder builder = RestClient.builder(
-                new HttpHost("172.17.72.23", 9200, "http"));
+                new HttpHost("localhost", 9200, "http"));
         RestHighLevelClient client = new RestHighLevelClient(builder);
 
-        insertRandomData(client, 5);
+
+
+
+
+//        insertRandomData(client, 5);
 
         // 创建查询请求
         SearchRequest searchRequest = new SearchRequest(INDEX_NAME); // 替换为你的索引名
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
         // 使用QueryBuilders构建查询条件
-        searchSourceBuilder.query(QueryBuilders.matchAllQuery()); // 这里是匹配所有文档
+//        searchSourceBuilder.query(QueryBuilders.matchAllQuery()); // 这里是匹配所有文档
+
+        // 根据字段查询
+        QueryBuilder queryBuilder = new MatchQueryBuilder("field1", "value23");
+        searchSourceBuilder.query(queryBuilder); // 这里是匹配所有文档
 
         // 设置查询构建器
         searchRequest.source(searchSourceBuilder);
