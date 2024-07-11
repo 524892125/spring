@@ -34,7 +34,7 @@ public class CLientSocketHandler {
     private WebSocketSession session;
 
     public CLientSocketHandler () throws URISyntaxException, InterruptedException {
-        webSocketClient = new WebSocketClient(new URI("wss://u236684-8634-d9ae222f.westb.seetacloud.com:8443/queue/join"), new Draft_6455()) {
+        webSocketClient = new WebSocketClient(new URI("wss://u236684-8642-dcfdda86.westb.seetacloud.com:8443/queue/join"), new Draft_6455()) {
 
             @Override
             public void onOpen(ServerHandshake handshakedata) {
